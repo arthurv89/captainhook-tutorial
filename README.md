@@ -38,25 +38,12 @@ These classes are enough to make type-checked calls to a server without needing 
 
 ## How to get started
 
-First check out the git project ...
+First check out the git project"
 ```
-export captainHookFrameworkDir=~/workspace/captainhook-tutorial
-mkdir -p $captainHookFrameworkDir
-git clone git@github.com:arthurv89/captainhook.git
-
+git clone git@github.com:arthurv89/captainhook-tutorial.git
 export captainHookProject=~/workspace/captainhook-tutorial
 cd $captainHookProject
 ```
-
-and then build the framework:
-```
-cd $captainHookProject/captainhook/framework/framework-core && mvn clean install
-cd $captainHookProject/captainhook/framework/framework-core-clientlib && mvn clean install
-cd $captainHookProject/captainhook/framework/framework-plugins-selfdiagnose && mvn clean install
-cd $captainHookProject/captainhook/framework/framework-core-server && mvn clean install
-```
-
-Now we have the framework in our local Maven repository.
 
 Now let's create our project.
 It's easiest to start with the clientlib module.
