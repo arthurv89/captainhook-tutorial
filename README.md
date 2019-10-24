@@ -40,10 +40,12 @@ These classes are enough to make type-checked calls to a server without needing 
 
 First check out the git project ...
 ```
-export captainHookProject=~/workspace/captainhook-tutorial
-mkdir -p $captainHookProject
-cd $captainHookProject
+export captainHookFrameworkDir=~/workspace/captainhook-tutorial
+mkdir -p $captainHookFrameworkDir
 git clone git@github.com:arthurv89/captainhook.git
+
+export captainHookProject=~/workspace/captainhook-tutorial
+cd $captainHookProject
 ```
 
 and then build the framework:
