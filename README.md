@@ -38,10 +38,14 @@ These classes are enough to make type-checked calls to a server without needing 
 
 ## How to get started
 
-First check out the git project"
+First define the place where you want to setup this tutorial: 
 ```
-git clone git@github.com:arthurv89/captainhook-tutorial.git
-export captainHookProject=~/workspace/captainhook-tutorial
+export captainHookProject=~/workspace/captainhook-tutorial2
+```
+
+Then check out the git project:
+```
+git clone git@github.com:arthurv89/captainhook-tutorial.git $captainHookProject
 cd $captainHookProject
 ```
 
@@ -54,8 +58,9 @@ In this document we are going to create a service called HelloWorldService
 ### Add parent in pom.xml
 First, create a clientlib project and add the following parent:
 ```
-mkdir -p $captainHookProject/captainhook/tutorial/helloworldservice-clientlib
-touch $captainHookProject/captainhook/tutorial/helloworldservice-clientlib/pom.xml
+export tut=$captainHookProject/mytutorial
+mkdir -p $tut/helloworldservice-clientlib
+nano $tut/helloworldservice-clientlib/pom.xml
 ```
 
 Enter the following:
@@ -65,12 +70,13 @@ Enter the following:
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>helloworldservice-clientlib</artifactId>
+    <groupId>com.swipecrowd.captainhook.tutorial</groupId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>helloworldservice-clientlib</name>
 
     <parent>
-        <groupId>com.arthurvlug.captainhook</groupId>
+        <groupId>com.swipecrowd.captainhook</groupId>
         <artifactId>framework-core-clientlib</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -80,19 +86,17 @@ Enter the following:
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5.1</version>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
+        <resources>
+            <resource>
+                <directory>${project.basedir}/src/main/resources</directory>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 </project>
+
 ```
 
 ### Add Input and output classes
@@ -101,17 +105,17 @@ The Activity input class can be anything you want, as long as it inherits from t
 
 In the example below, we used Lombok to add getters and a builder to generate this object in a clean way, and to get it's parameters without creating the getter methods ourselves.
 ```
-mkdir -p $captainHookProject/captainhook/tutorial/helloworldservice-clientlib/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice/activity/helloworld
-touch $captainHookProject/captainhook/tutorial/helloworldservice-clientlib/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice/activity/helloworld/HelloWorldInput.java
+mkdir -p $tut/helloworldservice-clientlib/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice/activity/helloworld
+nano $tut/helloworldservice-clientlib/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice/activity/helloworld/HelloWorldInput.java
 ```
 
 Edit the file with the following contents:
 ```java
-package com.arthurvlug.captainhook.tutorial.helloworldservice.activity.helloworld;
+package com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld;
 
 import lombok.Builder;
 import lombok.Getter;
-import com.arthurvlug.captainhook.framework.server.Input;
+import com.swipecrowd.captainhook.framework.server.Input;
 
 @Builder
 @Getter
@@ -123,17 +127,17 @@ public class HelloWorldInput extends Input {
 The Activity output class is similar to the input class: you have all the freedom define it, as long as you set it's parent class: to Output.
 
 ```
-touch $captainHookProject/captainhook/tutorial/helloworldservice-clientlib/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice/activity/helloworld/HelloWorldOutput.java
+nano $tut/helloworldservice-clientlib/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice/activity/helloworld/HelloWorldOutput.java
 ```
 
 Edit the file with the following contents:
 ```java
-package com.arthurvlug.captainhook.tutorial.helloworldservice.activity.helloworld;
+package com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld;
 
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Value;
-import com.arthurvlug.captainhook.framework.common.response.Output;
+import com.swipecrowd.captainhook.framework.common.response.Output;
 
 import java.time.Instant;
 
@@ -149,8 +153,8 @@ public class HelloWorldOutput extends Output {
 Lastly, in the resources folder, create a file called application.properties and add the following lines:
 
 ```
-mkdir -p $captainHookProject/captainhook/tutorial/helloworldservice-clientlib/src/main/resources
-touch $captainHookProject/captainhook/tutorial/helloworldservice-clientlib/src/main/resources/application.properties
+mkdir -p $tut/helloworldservice-clientlib/src/main/resources
+nano $tut/helloworldservice-clientlib/src/main/resources/application.properties
 ```
 
 Edit the file with the following contents:
@@ -165,8 +169,8 @@ With the clientlib in place, we can now move on to the server module.
 ### Step 2: Create a server module:
 
 ```
-mkdir -p $captainHookProject/captainhook/tutorial/helloworldservice
-touch $captainHookProject/captainhook/tutorial/helloworldservice/pom.xml
+mkdir -p $tut/helloworldservice
+nano $tut/helloworldservice/pom.xml
 ```
 
 Again, after creation of the server module, let's change the pom.xml file:
@@ -175,18 +179,18 @@ Again, after creation of the server module, let's change the pom.xml file:
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.arthurvlug.captainhook.tutorial</groupId>
+    <groupId>com.swipecrowd.captainhook.tutorial</groupId>
     <artifactId>helloworldservice</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>helloworldservice</name>
 
     <properties>
-        <project.mainClass>com.arthurvlug.captainhook.tutorial.helloworldservice.ServiceMain</project.mainClass>
+        <project.mainClass>com.swipecrowd.captainhook.tutorial.helloworldservice.ServiceMain</project.mainClass>
     </properties>
 
     <parent>
-        <groupId>com.arthurvlug.captainhook</groupId>
+        <groupId>com.swipecrowd.captainhook</groupId>
         <artifactId>framework-core-server</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
@@ -209,15 +213,15 @@ The parameters are a ServerProperties (which will be generated when you first bu
 Lastly, it will also receive an array of String arguments, which can be used to configure plugins or internals of the framework.
 
 ```
-mkdir -p $captainHookProject/captainhook/tutorial/helloworldservice/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice
-touch $captainHookProject/captainhook/tutorial/helloworldservice/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice/ServiceMain.java
+mkdir -p $tut/helloworldservice/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice
+nano $tut/helloworldservice/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice/ServiceMain.java
 ```
 
 ```java
-package com.arthurvlug.captainhook.tutorial.helloworldservice;
+package com.swipecrowd.captainhook.tutorial.helloworldservice;
 
-import com.arthurvlug.captainhook.tutorial.helloworldservice.server.ServerProperties;
-import com.arthurvlug.captainhook.framework.server.Controller;
+import com.swipecrowd.captainhook.tutorial.helloworldservice.server.ServerProperties;
+import com.swipecrowd.captainhook.framework.server.Controller;
 
 public class ServiceMain {
     public static void main(String[] args) {
@@ -231,17 +235,17 @@ public class ServiceMain {
 Now create an activity class that handles the request.
 
 ```
-mkdir -p $captainHookProject/captainhook/tutorial/helloworldservice/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice/server/activity/helloworld/
-touch $captainHookProject/captainhook/tutorial/helloworldservice/src/main/java/com/arthurvlug/captainhook/tutorial/helloworldservice/server/activity/helloworld/HelloWorldActivity.java
+mkdir -p $tut/helloworldservice/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice/server/activity/helloworld/
+nano $tut/helloworldservice/src/main/java/com/swipecrowd/captainhook/tutorial/helloworldservice/server/activity/helloworld/HelloWorldActivity.java
 ```
 
 ```java
-package com.arthurvlug.captainhook.tutorial.helloworldservice.server.activity.helloworld;
+package com.swipecrowd.captainhook.tutorial.helloworldservice.server.activity.helloworld;
 
-import com.arthurvlug.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
-import com.arthurvlug.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldOutput;
-import com.arthurvlug.captainhook.framework.server.SimpleActivity;
-import com.arthurvlug.captainhook.framework.server.Activity;
+import com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
+import com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldOutput;
+import com.swipecrowd.captainhook.framework.server.SimpleActivity;
+import com.swipecrowd.captainhook.framework.server.Activity;
 import org.springframework.stereotype.Component;
 import rx.Observable;
 
@@ -263,23 +267,23 @@ public class HelloWorldActivity extends SimpleActivity<HelloWorldInput, HelloWor
 ```
 
 ### Step 4: Build & run the application
-To generate the classes are necessary, you should simply run in both projects:
+To generate the classes that are necessary, you should simply run in both projects:
 ```
-cd $captainHookProject/captainhook/tutorial/helloworldservice-clientlib && \
+cd $tut/helloworldservice-clientlib && \
 mvn clean compile install && \
-cd $captainHookProject/captainhook/tutorial/helloworldservice && \
+cd $tut/helloworldservice && \
 mvn clean compile install
 ```
 
 To run the service, run:
 ```
-cd $captainHookProject/captainhook/tutorial/helloworldservice
+cd $tut/helloworldservice
 mvn -Prun exec:java
 ```
 
 Now you have a running service!
 When you go to http://localhost:8080/ , it should say: "The server is online!".
-When you go to http://localhost:8080/activity?activity=HelloWorld&encoding=JSON&payload=%7B%22name%22%3A%22Captain%22Hook%22%7D, it will show the response from the server.
+When you go to http://localhost:8080/activity?activity=HelloWorld&encoding=JSON&payload=%7B%22name%22%3A%22Captain%20Hook%22%7D, it will show the response from the server.
 
 Other services can can now consume it's clientlib and call it without much effort.
 If those other services also implement the same model, their consumers can also easily call them.
@@ -290,19 +294,24 @@ In this last step we're going to make a service called HelloMoonService that cal
 
 Open a new tab and execute the following script to create the HelloMoonService:
 ```
-export captainHookProject=~/workspace/captainhook-tutorial
-bash $captainHookProject/captainhook/tutorial/cloneAndReplace.sh
+export captainHookProject=~/workspace/captainhook-tutorial2
+export tut=$captainHookProject/mytutorial
+bash -x -e $captainHookProject/tutorial-scripts/cloneAndReplace.sh
 ```
 
 Both services are now in place. They are configured to run on different ports: HelloWorldService runs on port 8080 and HelloMoonService runs on port 8081.
 However, before we run it, let's configure the HelloMoonService to call HelloWorldService.
 
 Add the following dependency to HelloMoonService's pom.xml
+```
+nano $captainHookProject/mytutorial/hellomoonservice/pom.xml
+```
+
 ```xml
 <dependencies>
     [...]
     <dependency>
-        <groupId>com.arthurvlug.captainhook.tutorial</groupId>
+        <groupId>com.swipecrowd.captainhook.tutorial</groupId>
         <artifactId>helloworldservice-clientlib</artifactId>
         <version>1.0-SNAPSHOT</version>
     </dependency>
@@ -313,9 +322,12 @@ Add the following dependency to HelloMoonService's pom.xml
 Now simply change the enact method in HelloMoonActivity to call the Client class that the HelloWorldService Clientlib exposed:
 ```
 [...]
-import com.arthurvlug.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
-import com.arthurvlug.captainhook.tutorial.helloworldservice.client.Client;
+import com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
+import com.swipecrowd.captainhook.tutorial.helloworldservice.client.Client;
 [...]
+
+@Activity
+@Component
 public class HelloMoonActivity extends SimpleActivity<HelloMoonInput, HelloMoonOutput> {
     @Override
     public Observable<HelloMoonOutput> enact(HelloMoonInput helloMoonInput) {
@@ -329,16 +341,18 @@ public class HelloMoonActivity extends SimpleActivity<HelloMoonInput, HelloMoonO
 }
 ```
 
-After build the HelloMoon projects we will be able to run the HelloMoonService
+After build the HelloMoon projects...
 ```
-cd $captainHookProject/captainhook/tutorial/helloMoonServiceClientLib
+cd $tut/helloMoonServiceClientLib
 mvn clean compile install
-cd $captainHookProject/captainhook/tutorial/helloMoonService
+cd $tut/helloMoonService
 mvn clean compile install
+```
 
-
-cd $captainHookProject/captainhook/tutorial/helloMoonService
+... we will be able to run the HelloMoonService
+```
+cd $tut/helloMoonService
 mvn -Prun exec:java
 ```
 
-When you go to http://localhost:8081/activity?activity=HelloMoon&encoding=JSON&payload=%7B%22name%22%3A%22Captain%22Hook%22%7D, it will show the response from the HelloMoonService which shows that inside it has called the HelloWorldService.
+When you go to http://localhost:8081/activity?activity=HelloMoon&encoding=JSON&payload=%7B%22name%22%3A%22Captain%20Hook%22%7D, it will show the response from the HelloMoonService which shows that inside it has called the HelloWorldService.
