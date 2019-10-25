@@ -38,7 +38,7 @@ These classes are enough to make type-checked calls to a server without needing 
 
 ## How to get started
 
-First define the place where you want to setup this tutorial: 
+First define the place where you want to setup this tutorial:
 ```
 export captainHookProject=~/workspace/captainhook-tutorial
 export tut=$captainHookProject/tutorial-result
@@ -89,7 +89,7 @@ Enter the following:
     <parent>
         <groupId>com.swipecrowd.captainhook</groupId>
         <artifactId>framework-core-clientlib</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
 
     <properties>
@@ -203,7 +203,7 @@ Again, after creation of the server module, let's change the pom.xml file:
     <parent>
         <groupId>com.swipecrowd.captainhook</groupId>
         <artifactId>framework-core-server</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>0.1.0</version>
     </parent>
 
     <dependencies>
