@@ -40,14 +40,18 @@ These classes are enough to make type-checked calls to a server without needing 
 
 First define the place where you want to setup this tutorial: 
 ```
-export captainHookProject=~/workspace/bla/captainhook-tutorial2
-export tut=$captainHookProject/mytutorial
+export captainHookProject=~/workspace/captainhook-tutorial
+export tut=$captainHookProject/tutorial-result
+echo "export captainHookProject=$captainHookProject; export tut=$tut" > ~/.captainhookvars
+. ~/.captainhookvars
+echo $tut
 ```
 
 Then check out the git project:
 ```
 git clone git@github.com:arthurv89/captainhook-tutorial.git $captainHookProject
 cd $captainHookProject
+rm -rf $tut
 mkdir -p $tut
 ```
 
@@ -301,9 +305,8 @@ In this last step we're going to make a service called HelloMoonService that cal
 
 Open a new tab and execute the following script to create the HelloMoonService:
 ```
-export captainHookProject=~/workspace/captainhook-tutorial2
-export tut=$captainHookProject/mytutorial
-bash -x -e $captainHookProject/tutorial-scripts/cloneAndReplace.sh
+. ~/.captainhookvars
+bash -e $captainHookProject/tutorial-scripts/cloneAndReplace.sh
 ```
 
 Both services are now in place. They are configured to run on different ports: HelloWorldService runs on port 8080 and HelloMoonService runs on port 8081.
@@ -311,7 +314,7 @@ However, before we run it, let's configure the HelloMoonService to call HelloWor
 
 Add the following dependency to HelloMoonService's pom.xml
 ```
-nano $captainHookProject/mytutorial/hellomoonservice/pom.xml
+nano $tut/hellomoonservice/pom.xml
 ```
 
 ```xml
@@ -327,6 +330,11 @@ nano $captainHookProject/mytutorial/hellomoonservice/pom.xml
 ```
 
 Now simply change the enact method in HelloMoonActivity to call the Client class that the HelloWorldService Clientlib exposed:
+
+```
+nano $tut/hellomoonservice/src/main/java/com/swipecrowd/captainhook/tutorial/hellomoonservice/server/activity/hellomoon/HelloMoonActivity.java
+```
+
 ```
 [...]
 import com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
@@ -350,9 +358,9 @@ public class HelloMoonActivity extends SimpleActivity<HelloMoonInput, HelloMoonO
 
 After build the HelloMoon projects...
 ```
-cd $tut/helloMoonServiceClientLib
+cd $tut/hellomoonservice-clientlib
 mvn clean compile install
-cd $tut/helloMoonService
+cd $tut/hellomoonservice
 mvn clean compile install
 ```
 
