@@ -40,13 +40,21 @@ These classes are enough to make type-checked calls to a server without needing 
 
 First define the place where you want to setup this tutorial: 
 ```
-export captainHookProject=~/workspace/captainhook-tutorial2
+export captainHookProject=~/workspace/bla/captainhook-tutorial2
+export tut=$captainHookProject/mytutorial
 ```
 
 Then check out the git project:
 ```
 git clone git@github.com:arthurv89/captainhook-tutorial.git $captainHookProject
 cd $captainHookProject
+mkdir -p $tut
+```
+
+If at any stage you're getting errors, try determining the diff between your project and the tutorial-results folder:
+```
+diff $tut $captainHookProject/tutorial-result
+diff $tut/helloworldservice/pom.xml $captainHookProject/tutorial-result/helloworldservice/pom.xml
 ```
 
 Now let's create our project.
@@ -58,7 +66,6 @@ In this document we are going to create a service called HelloWorldService
 ### Add parent in pom.xml
 First, create a clientlib project and add the following parent:
 ```
-export tut=$captainHookProject/mytutorial
 mkdir -p $tut/helloworldservice-clientlib
 nano $tut/helloworldservice-clientlib/pom.xml
 ```
