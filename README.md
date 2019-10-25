@@ -34,9 +34,9 @@ This is the reason it has to be split from the service' business logic: this way
 The module should expose a Client class and the service's domain classes.
 These classes are enough to make type-checked calls to a server without needing any configurations on the consumer side (apart from adding the clientlib as a dependency in the project).
 
-![Call Graph](docs/callGraph.png)
-
 ![Dependency Graph](docs/dependencyGraph.png)
+
+![Call Graph](docs/callGraph.png)
 
 
 <a name="howtogetstarted"/>
