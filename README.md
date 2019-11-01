@@ -340,7 +340,7 @@ Now simply change the enact method in HelloMoonActivity to call the Client class
 nano $tut/hellomoonservice/src/main/java/com/swipecrowd/captainhook/tutorial/hellomoonservice/server/activity/hellomoon/HelloMoonActivity.java
 ```
 
-```
+```java
 [...]
 import com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
 import com.swipecrowd.captainhook.tutorial.helloworldservice.client.Client;
