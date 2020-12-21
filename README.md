@@ -62,8 +62,8 @@ mkdir -p $tut
 
 If at any stage you're getting errors, try determining the diff between your project and the tutorial-results folder:
 ```
-diff $tut $captainHookProject/tutorial-result
-diff $tut/helloworldservice/pom.xml $captainHookProject/tutorial-result/helloworldservice/pom.xml
+diff -r $tut $captainHookProject/tutorial-repo-result
+diff -r $tut/helloworldservice/pom.xml $captainHookProject/tutorial-repo-result/helloworldservice/pom.xml
 ```
 
 Now let's create our project.

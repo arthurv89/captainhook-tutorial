@@ -22,3 +22,4 @@ public class HelloWorldActivity extends SimpleActivity<HelloWorldInput, HelloWor
         return Observable.just(output);
     }
 }
+

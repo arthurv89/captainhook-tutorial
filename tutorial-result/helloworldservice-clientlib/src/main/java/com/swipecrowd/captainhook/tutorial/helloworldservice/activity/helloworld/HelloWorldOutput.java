@@ -14,3 +14,4 @@ public class HelloWorldOutput extends Output {
     private String message;
     private Instant respondingTime;
 }
+

@@ -9,3 +9,4 @@ import com.swipecrowd.captainhook.framework.server.Input;
 public class HelloWorldInput extends Input {
     private final String name;
 }
+

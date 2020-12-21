@@ -6,13 +6,14 @@ import com.google.gson.reflect.TypeToken;
 import lombok.Getter;
 import rx.Observable;
 
-public class Client extends AbstractClient {
+public class JavaClient extends AbstractClient {
     @Getter
     private static final int port = Integer.parseInt("8081");
+    private static final String host = "10.0.2.2";
 
     @Override
     protected String getBaseUrl() {
-        return "http://localhost:" + port;
+        return "http://" + host + ":" + port;
     }
 
     public Observable<com.swipecrowd.captainhook.tutorial.hellomoonservice.activity.hellomoon.HelloMoonOutput> helloMoonCall(final com.swipecrowd.captainhook.tutorial.hellomoonservice.activity.hellomoon.HelloMoonInput input) {

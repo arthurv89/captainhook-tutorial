@@ -14,3 +14,4 @@ public class HelloMoonOutput extends Output {
     private String message;
     private Instant respondingTime;
 }
+

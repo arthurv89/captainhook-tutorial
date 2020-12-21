@@ -1,7 +1,7 @@
 package com.swipecrowd.captainhook.tutorial.hellomoonservice.server.activity.hellomoon;
-
 import com.swipecrowd.captainhook.tutorial.helloworldservice.activity.helloworld.HelloWorldInput;
 import com.swipecrowd.captainhook.tutorial.helloworldservice.client.Client;
+
 import com.swipecrowd.captainhook.tutorial.hellomoonservice.activity.hellomoon.HelloMoonInput;
 import com.swipecrowd.captainhook.tutorial.hellomoonservice.activity.hellomoon.HelloMoonOutput;
 import com.swipecrowd.captainhook.framework.server.SimpleActivity;
@@ -24,3 +24,4 @@ public class HelloMoonActivity extends SimpleActivity<HelloMoonInput, HelloMoonO
                         .build());
     }
 }
+
